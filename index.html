@@ -1,0 +1,376 @@
+<html>
+<head>
+
+    <title></title>
+    <script src="jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="main.js" type="text/javascript"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-table.min.css">
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="js/moment-with-locales.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/javascript" src="js/pdf.js"></script>
+
+
+    <link href="loan.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Loan Manager</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Account</a></li>
+          </ul>
+ <!--         <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form> !-->
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active" id="home"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home <span class="sr-only">(current)</span></a></li>
+            <li id="add"><a href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Loan</a></li>
+            <li id="reports"><a href="#">  <span class="glyphicon glyphicon-file" aria-hidden="true"></span> Reports</a></li>
+          </ul>
+        </div>
+
+	
+
+
+	<div id="loanProfile">
+	  <div class="col-sm-5 col-sm-offset-3 col-md-3 col-md-offset-2">
+	    
+	    <h2>Loan Information</h2>
+            <table class="table table-profile">
+              <tbody>
+                <tr>
+                  <td>Loan Number</td>
+                  <td id="profNum"></td>
+                </tr>
+                <tr>
+                  <td>Name</td>
+                  <td id="profName"></td>
+                </tr>
+                <tr>
+                  <td>Loan Amount</td>
+                  <td id="profAmount"></td>
+                </tr>
+                <tr>
+                  <td>Loan date</td>
+                  <td id="profDate"></td>
+                </tr>
+                <tr>
+                  <td>Application</td>
+                  <td id="profApp"></td>
+                </tr>
+                <tr>
+                  <td>Gender</td>
+                  <td id="profGen"></td>
+                </tr>
+		<tr>
+                  <td>Age</td>
+                  <td id="profAge"></td>
+                </tr>
+                <tr>
+                  <td>Business</td>
+                  <td id="profBusiness"></td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+          </div>
+
+	  <div class="col-sm-3 col-sm-offset-2 col-md-5 col-md-offset-0 main">
+	    <h2 class="page-header">Payment Schedule</h2>
+	    
+	    <table id="profSched" data-height="25" class="table table-striped">
+              <thead>
+		<tr>
+                  <th data-field="date" data-sortable="false" data-align="right">Payment Date</th>
+                  <th data-field="amount" data-sortable="false" data-align="right">Amount Paid</th>
+                  <th data-field="owed" data-sortable="false" data-align="right">Amount Owed</th>
+                  
+		</tr>
+              </thead>
+	      <tbody id="profSched">
+	      </tbody>
+            </table>
+	  </div>
+
+	  <div class="col-sm-3 col-sm-offset-2 col-md-5 col-md-offset-0 main">
+	    <h2 class="page-header">Payments</h2>
+	    
+	    <table id="profPays" class="table table-striped">
+              <thead>
+		<tr>
+		  <th data-field="receipt" data-sortable="false" data-align="right"
+		      data-formatter="showReceiptIcon"></th>
+                  <th data-field="date" data-sortable="false" data-align="right">Payment Date</th>
+                  <th data-field="amount" data-sortable="false" data-align="right">Amount Paid</th>
+                  <th data-field="owed" data-sortable="false" data-align="right">Amount Owed</th>
+                  
+		</tr>
+              </thead>
+	      <tbody id="profPays">
+	      </tbody>
+            </table>
+	    <button id="profAddPayment" type="button" class="btn btn-success" style="float:right">+</button>
+	  </div>
+	</div>
+
+
+	<div id="addLoan">
+	<div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-2 main">
+	  <form id="addLoanForm" class="form-horizontal">
+	    <fieldset>
+
+	      <!-- Form Name -->
+	      <legend>Add Loan</legend>
+
+	      <!-- Text input-->
+	      <div class="control-group">
+		<label class="control-label" for="textinput">Applicant Name</label>
+		<div class="controls">
+		  <input id="appName" name="appName" type="text" placeholder="John Smith" class="input">
+		</div>
+	      </div>
+
+	      <!-- File Button --> 
+	      <div class="control-group">
+		<label class="control-label" for="filebutton">Application</label>
+		<div class="controls">
+		  <input id="app" name="app" class="input-file" type="file">
+		</div>
+	      </div>
+	      
+
+	      <!-- Text input-->
+	      <div class="form-group">
+		<label class="control-label" for="textinput">Loan Date (Year-Mon-Day)</label>
+		<div class="input-group date" id="loanDate" style="width:75%">
+		  <input id="loanDateF" type="text" class="form-control" data-date-format="YYYY-MM-DD"/>
+		  <span class="input-group-addon">
+		    <span class="glyphicon glyphicon-calendar"></span>
+		  </span>
+		</div>
+	      </div>
+
+	      <!-- Text input-->
+	      <div class="control-group">
+		<label class="control-label" for="textinput">Loan Number</label>
+		<div class="controls">
+		  <input id="loanNum" name="loanNum" type="text" placeholder="L0000" class="input">
+		</div>
+	      </div>
+
+	      <!-- Text input-->
+	      <div class="control-group">
+		<label class="control-label" for="textinput">Amount Loaned</label>
+		<div class="controls">
+		  $<input id="amountLoaned" name="amountLoaned" type="text" placeholder="2000" class="input">
+		</div>
+	      </div>
+
+
+	      <!-- Text input-->
+	      <div class="control-group">
+		<label class="control-label" for="textinput">Age</label>
+		<div class="controls">
+		  <input id="age" name="age" type="text" placeholder="25" class="input">
+		</div>
+	      </div>
+
+
+	      <!-- Multiple Radios -->
+	      <div class="control-group">
+		<label class="control-label" for="gender">Gender</label>
+		<div style="padding-left:25px" class="controls">
+		  <label class="radio" for="gender-0">
+		    <input type="radio" name="gender" id="gender-0" value="Male" checked="checked">
+		    Male
+		  </label>
+		  <label class="radio" for="gender-1">
+		    <input type="radio" name="gender" id="gender-1" value="Female">
+		    Female
+		  </label>
+		</div>
+	      </div>
+
+	      <!-- Text input-->
+	      <div class="control-group">
+		<label class="control-label" for="textinput">Business Type</label>
+		<div class="controls">
+		  <input id="business" name="business" type="text" placeholder="Fish" class="input">
+		</div>
+	      </div>
+	    
+	    </fieldset>
+	  </form>
+
+	  
+	</div>
+	<div class="col-sm-1 col-sm-offset-1 col-md-7 col-md-offset-0 main">
+	  <h2 class="page-header">Payment Table</h2>
+	  
+	  <table id="paymentTable" class="table table-striped">
+            <thead>
+              <tr>
+                <th data-field="date" data-sortable="false" data-align="right">Payment Date</th>
+                <th data-field="amount" data-sortable="false" data-align="right">Amount Paid</th>
+                <th data-field="owed" data-sortable="false" data-align="right">Amount Owed</th>
+                
+              </tr>
+            </thead>
+	    <tbody id="paymentTableBody">
+	    </tbody>
+          </table>
+	  <button id="addPaymentRow" type="button" class="btn btn-success">+</button>
+
+	 
+	</div>
+	<!-- Button -->
+	<div class="control-group bottom-left"></br>
+	  <div class="controls">
+	    <button id="saveLoan" name="saveLoan" class="btn btn-primary">Save</button>
+	  </div>
+	</div>
+	      
+      </div>
+	
+        <div id="homeContent" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+
+          <div class="row placeholders">
+            <div class="col-xs-7 col-sm-4 placeholder">
+              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Graph 1</span>
+            </div>
+            <div class="col-xs-7 col-sm-4 placeholder">
+              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Graph 2</span>
+            </div>
+            <div class="col-xs-7 col-sm-4 placeholder">
+              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Graph 3</span>
+            </div>
+          </div>
+
+          <h2 class="sub-header">Loans</h2>
+          <div class="table-responsive">
+
+            <table id="mainTable" class="table table-striped" data-sort-name="loanNum" data-sort-order="asc">
+              <thead>
+                <tr>
+                  <th data-field="loanNum" data-sortable="true" data-align="right" data-class="loanNumber">Loan Number</th>
+                  <th data-field="amount" data-sortable="true" data-align="right" data-class="dataCell">Amount Loaned</th>
+                  <th data-field="owed" data-sortable="true" data-align="right" data-class="dataCell">Amount Owed</th>
+                  <th data-field="lastPay" data-sortable="true" data-align="right" data-class="dataCell">Last Date of Payment</th>
+                  <th data-field="nextPay" data-sortable="true" data-align="right" data-class="dataCell">Next Payment</th>
+		  <th data-field="daysBehind" data-sortable="true" data-align="right" data-class="dataCell">Days Behind</th>
+		  <th data-field="amountBehind" data-sortable="true" data-align="right" data-class="dataCell">Amount Behind</th>
+                </tr>
+              </thead>
+              <tbody id="mainTableBody">
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<div class="modal fade" id="addPaymentModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close closeP" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Payment</h4>
+      </div>
+
+      <div class="modal-body">
+
+	<!-- Text input-->
+	<div class="control-group">
+	  <label class="control-label" for="textinput">Amount Paid</label>
+	  <div class="controls">
+	    $<input id="amountPaid" name="appName" type="text" placeholder="500" class="input">
+	  </div>
+	</div>
+	
+	<!-- File Button --> 
+	<div class="control-group">
+	  <label class="control-label" for="filebutton">Reciept</label>
+	  <div class="controls">
+	    <input id="recpt" name="app" class="input-file" type="file">
+	  </div>
+	</div>
+	
+	<!-- Text input-->
+	<div class="form-group">
+	  <label class="control-label" for="textinput">Payment Date</label>
+	  <div class="input-group date" id="paymentdateD" style="width:75%">
+	    <input id="paymentDate" type="text" class="form-control" data-date-format="YYYY-MM-DD"/>
+	    <span class="input-group-addon">
+	      <span class="glyphicon glyphicon-calendar"></span>
+	    </span>
+	  </div>
+	</div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default closeP" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="savePay">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="pdfIframe">
+  <div class="modal-dialog" style="width:85%; height:95%">
+    <div class="modal-content" style="height:95%">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Add Payment</h4>
+      </div>
+
+      <div class="modal-body" style="height:85%">
+
+      <iframe src="" style="zoom:0.60" width="99.6%" height="1250" frameborder="0"></iframe>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+ 
+  </body>
+</html>
