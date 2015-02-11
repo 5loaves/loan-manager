@@ -6,13 +6,14 @@ import os.path
 Defines the queries used
 """
 CREATE_LOAN_TABLE = '''CREATE TABLE loans(loan_number, name, application_file, loan_date date, 
-                amount_loaned, age, gender, business_type)'''
+                amount_loaned, age, gender, business_type, location)'''
 CREATE_SCHEDULE_TABLE = '''CREATE TABLE payment_schedules
                               (loan_number, scheduled_date date, amount)'''
 CREATE_PAYMENT_TABLE = '''CREATE TABLE payments(loan_number, payment_date date, amount, reciept)'''
 
 ADD_LOAN = '''INSERT INTO loans(loan_number, name, application_file, loan_date, 
-                amount_loaned, age, gender, business_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'''
+                amount_loaned, age, gender, business_type, location)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
 ADD_SCHEDULED_PAYMENT = '''INSERT INTO payment_schedules(loan_number, scheduled_date, amount)
                  VALUES (?, ?, ?)'''
 ADD_PAYMENT = '''INSERT INTO payments(loan_number, payment_date, amount, reciept) 
@@ -20,7 +21,8 @@ ADD_PAYMENT = '''INSERT INTO payments(loan_number, payment_date, amount, reciept
 
 GET_LOAN_NUMBERS = '''SELECT loan_number FROM loans ORDER BY loan_number ASC'''
 GET_LOAN = '''SELECT loan_number, name, application_file, loan_date as "loan_date [date]", 
-                amount_loaned, age, gender, business_type FROM loans WHERE loan_number = ?'''
+                amount_loaned, age, gender, business_type, location
+                FROM loans WHERE loan_number = ?'''
 GET_LOAN_SCHEDULE = '''SELECT loan_number, scheduled_date as "d [date]", amount from 
                           payment_schedules WHERE loan_number = ? ORDER BY
                           date(scheduled_date) ASC'''
@@ -60,13 +62,13 @@ ADD FUNCTIONS
 """
 
 def add_loan(loan_number, name, application_file, loan_date, amount_loaned, 
-             age, gender, business_type):
+             age, gender, business_type, location):
     """
     Adds a loan to the database
     """
     global db, cursor
     loan_data = (loan_number, name, application_file, loan_date, amount_loaned, 
-                 age, gender, business_type)
+                 age, gender, business_type, location)
     cursor.execute(ADD_LOAN, loan_data)
     db.commit()
 

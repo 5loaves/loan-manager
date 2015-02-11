@@ -36,6 +36,13 @@ def days_behind(payments, schedule):
                 return -(d['date'].day-date.today().day)
     return 0
 
+def owed(loaned, payments):
+    paid = 0
+    for p in payments:
+        paid += int(p['amount'])
+    return int(loaned) - paid
+
+
 def get_home_page_table():
     loans = loansDB.get_all_loans()
     loan_table = []
@@ -43,13 +50,22 @@ def get_home_page_table():
         loan = l['loan_info']
         loan_table.append({'loanNum':loan['loan_number'],
                            'amount':loan['amount_loaned'],
-                           'owed':loan['amount_loaned'],
+                           'owed':str(owed(loan['amount_loaned'], l['payments'])),
                            'lastPay': get_last_payment(l['payments']),
                            'nextPay': get_next_payment(l['schedule']),
                            'daysBehind': days_behind(l['payments'], l['schedule']),
                            'amountBehind':'$'+str(amount_behind(l['payments'], l['schedule']))})
     return json.dumps(loan_table)
 
+
+def generate_kiva_report():
+    loans = loansDB.get_all_loans()
+    report = ''
+    for l in loans:
+        loan = l['loan_info']
+        report += loan['loan_number'] + ',' + str(owed(loan['amount_loaned'], l['payments']))
+        report += '\n'
+    return json.dumps(report)
 
 def get_loan(msg):
     loan_number = msg['loanNum']
@@ -70,7 +86,7 @@ def get_loan(msg):
 
 def add_loan(loan):
     loansDB.add_loan(loan['loanNum'], loan['name'], loan['file'], deformat_date(loan['loanDate']), 
-                     loan['amount'], loan['age'], loan['gender'], loan['business'])
+                loan['amount'], loan['age'], loan['gender'], loan['business'], loan['location'])
 
     for p in loan['payments']:
         loansDB.add_scheduled_payment(loan['loanNum'], deformat_date(p['date']), p['amount'])

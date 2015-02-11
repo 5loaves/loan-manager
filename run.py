@@ -30,6 +30,8 @@ def do_message(msg, web_send):
         app.add_payment(msg)
         web_send("message_recieved('show loan info', '%s')" % app.get_loan(msg))
         web_send("message_recieved('populate home table', '%s')" % app.get_home_page_table())
+    if msg['message'] == 'Get Report':
+        web_send("message_recieved('show report', '%s')" % app.generate_kiva_report())
 
 
 def main():

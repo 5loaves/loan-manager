@@ -14,8 +14,10 @@ var message_recieved = function(type, msg) {
 	resetAddLoanForm();
     } else if(type == 'show loan info'){
 	showLoan(JSON.parse(msg));
+    } else if(type == 'show report') {
+	$('#report').html('<pre>'+msg.replace(/"/g,'')+'</pre>');
     }
-}
+};
 
 var showReceiptIcon = function(val, row){
     return '<a href="#"><i lnk="'+val+'" class="fa fa-newspaper-o recptClk icnBlue"></i></a>';
@@ -36,13 +38,14 @@ var showHome = function(){
     $('#homeContent').show();
     $('#addLoan').hide();
     $('#loanProfile').hide();
-}
+    $('#report').hide();
+};
 
 var gotoLoan = function (e, row, $element) {
     loanNum = row.loanNum;
     // get loan information
     data = {loanNum: loanNum};
-    data.message = 'Get Loan'
+    data.message = 'Get Loan';
     send(JSON.stringify(data));
     // display loan information
     $('#loanProfile').show();
@@ -50,7 +53,7 @@ var gotoLoan = function (e, row, $element) {
 };
 
 var showLoan = function(loan) {
-    loanInfo = loan.loan_info
+    loanInfo = loan.loan_info;
     $('#profName').text(loanInfo.name);
     $('#profDate').text(loanInfo.loan_date);
     $('#profApp').html('<a href="#" id="test">Something here soon...</a>');
@@ -59,6 +62,7 @@ var showLoan = function(loan) {
     $('#profNum').text(loanInfo.loan_number);
     $('#profAge').text(loanInfo.age);
     $('#profBusiness').text(loanInfo.business_type);
+    $('#profLoc').text(loanInfo.location);
     $('#test').click(function(){
 	$('#pdfIframe').modal('show');
         $('iframe').attr("src",'pdfjs/web/viewer.html?file='+loanInfo.application_file);
@@ -96,6 +100,7 @@ $(function() {
 	$('#homeContent').hide();
 	$('#addLoan').show();
 	$('#loanProfile').hide();
+	$('#report').hide();
     });
     $('#reports').click(function(){
 	$('#home').removeClass('active');
@@ -104,6 +109,8 @@ $(function() {
 	$('#addLoan').hide();
 	$('#homeContent').hide();
 	$('#loanProfile').hide();
+	send(JSON.stringify({'message':'Get Report'}));
+	$('#report').show();
     });
     $('#paymentdateD').datetimepicker({pickTime:false});
     $('#paymentDate').datetimepicker({pickTime:false});
@@ -189,13 +196,14 @@ $(function() {
 	data.age = $('#age').val();
 	data.gender = $("input:radio[name ='gender']:checked").val();
 	data.business = $('#business').val();
+	data.location = $('#loc').val();
 
 	data.payments = [];
 	for(var i = 0; i < rowNum; i++){
 	    data.payments.push({date:$('#date'+i).val(), amount:$('#amount'+i).val()});
 	}
 
-	data.message = 'Add Loan'
+	data.message = 'Add Loan';
 	showHome();
 	send(JSON.stringify(data));
 	resetAddLoanForm();
@@ -208,14 +216,14 @@ var recalcPaymentTable = function(){
 	tmp -= parseInt($('#amount'+i).val());
 	$('#owed'+i).html('$'+tmp);
     }
-}
+};
 
 function pad(v){
     v = v.toString();
     while(v.length < 4){
 	v = '0'+v;
     }
-    return v
+    return v;
 }
 
 function resetAddLoanForm(){
