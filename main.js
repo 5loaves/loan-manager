@@ -1,6 +1,8 @@
+var socket = new WebSocket("ws://localhost:5522");
+
 var message_recieved = function(type, msg) {
     if(type == 'populate home table'){
-	var rows = JSON.parse(msg);
+	var rows = msg;//JSON.parse(msg);
 	$table = $('#mainTable').bootstrapTable({data: rows });
 	$table.bootstrapTable('load', rows);
 	$table.on('click-row.bs.table', gotoLoan);
@@ -13,11 +15,19 @@ var message_recieved = function(type, msg) {
 	}
 	resetAddLoanForm();
     } else if(type == 'show loan info'){
-	showLoan(JSON.parse(msg));
+	showLoan(msg);
     } else if(type == 'show report') {
 	$('#report').html('<pre>'+msg.replace(/"/g,'')+'</pre>');
     }
 };
+socket.onmessage = function(e){
+    console.log("got msg");
+   var server_message = e.data;
+    console.log(server_message);
+    d = JSON.parse(server_message);
+    console.log(d);
+    message_recieved(d[0],d[1]);
+}
 
 var showReceiptIcon = function(val, row){
     return '<a href="#"><i lnk="'+val+'" class="fa fa-newspaper-o recptClk icnBlue"></i></a>';
@@ -237,8 +247,9 @@ function resetAddLoanForm(){
 
 
 function send(msg) {
-    document.title = "null";
-    document.title = msg;
+//   document.title = "null";
+//    document.title = msg;
+    socket.send(msg);
 }
 
 Date.prototype.yyyymmdd = function() {
