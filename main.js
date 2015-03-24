@@ -110,6 +110,7 @@ $(function() {
 	$('#reports').removeClass('active');
 	$('#homeContent').hide();
 	$('#addLoan').show();
+	resetAddLoanForm();
 	$('#loanProfile').hide();
 	$('#report').hide();
     });
