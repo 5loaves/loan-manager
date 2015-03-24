@@ -9,8 +9,8 @@ var message_recieved = function(type, msg) {
 
 	for(var row in rows){
 	    var r = rows[row];
-	    if(parseInt(r.loanNum.slice(1)) > loanNum){
-		loanNum = parseInt(r.loanNum.slice(1));
+	    if(parseInt(r.loanNum.slice(1)) > nextLoanNum){
+		nextLoanNum = parseInt(r.loanNum.slice(1));
 	    }
 	}
 	resetAddLoanForm();
@@ -40,6 +40,7 @@ var curLoaned = 0;
 var loanNum = 0;
 var appFile = 0;
 var recpt = 0;
+var nextLoanNum = 0;
 
 var showHome = function(){
     $('#home').addClass('active');
@@ -241,7 +242,7 @@ function resetAddLoanForm(){
     curLoaned = 0;
     $('#paymentTableBody').html('');
     $('#addLoanForm').trigger('reset');
-    $('#loanNum').val('L'+pad(loanNum+1));
+    $('#loanNum').val('L'+pad(nextLoanNum+1));
     $('#loanDate').val((new Date()).yyyymmdd());
 }
 
