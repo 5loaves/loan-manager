@@ -251,6 +251,7 @@ function resetAddLoanForm(){
 function send(msg) {
 //   document.title = "null";
 //    document.title = msg;
+    console.log('sending',msg);
     socket.send(msg);
 }
 

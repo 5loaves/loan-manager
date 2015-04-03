@@ -16,7 +16,7 @@ import websocket
 import app
 
 socket = None
-global_msg = None
+global_msg = ''
 class Global(object):
     quit = False
     @classmethod
@@ -25,8 +25,9 @@ class Global(object):
 
 
 def do_message(msg, web_send):
-    print msg
+#    print msg
     if msg['message'] == 'Add Loan':
+        print 'adding loan'
         app.add_loan(msg)
         web_send('["populate home table", %s]' % app.get_home_page_table())
     if msg['message'] == 'Get Loan':
@@ -46,11 +47,19 @@ def web_send(msg):
     socket.send(msg)
 
 def web_recv(ws, msg):
-    print 'got msg', msg
+    global global_msg
     if 'connected' in msg:
         web_send('["populate home table", %s]' % app.get_home_page_table())
-    msg = from_json(msg)
-    do_message(msg, web_send)
+    else:
+        if msg[-1] != '}':
+            global_msg += msg
+        elif global_msg != '':
+            msg = global_msg + msg
+            global_msg = ''
+        
+        if msg[-1] == '}':
+            msg = from_json(msg)
+            do_message(msg, web_send)
 
 def main():
 #    global httpd

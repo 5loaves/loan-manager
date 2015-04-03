@@ -85,6 +85,7 @@ def get_loan(msg):
     return json.dumps(loan)
 
 def add_loan(loan):
+    print 'adding', len(loan['file'])
     loansDB.add_loan(loan['loanNum'], loan['name'], loan['file'], deformat_date(loan['loanDate']), 
                 loan['amount'], loan['age'], loan['gender'], loan['business'], loan['location'])
 
