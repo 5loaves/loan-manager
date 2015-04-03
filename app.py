@@ -85,7 +85,13 @@ def get_loan(msg):
     return json.dumps(loan)
 
 def add_loan(loan):
-    print 'adding', len(loan['file'])
+    print 'adding'
+    loan_number = loan['loanNum']
+    ln = loansDB.get_loan(loan_number)
+    if ln:
+        print 'error, loan already exists', loan_number
+        return
+    
     loansDB.add_loan(loan['loanNum'], loan['name'], loan['file'], deformat_date(loan['loanDate']), 
                 loan['amount'], loan['age'], loan['gender'], loan['business'], loan['location'])
 

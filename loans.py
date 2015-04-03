@@ -94,6 +94,8 @@ def get_loan(loan_number):
     # get the main loan information
     cursor.execute(GET_LOAN, data)
     loan_info = cursor.fetchone()
+    if loan_info is None:
+        return None
 
     # get the scheduled payments
     schedule = []
@@ -104,7 +106,7 @@ def get_loan(loan_number):
         schedule.append({'date':row['d'], 'amount':row['amount'], 'owed':amount}) 
         # remove loan number because we don't care about it
     
-
+   
     # get the actual payments
     payments = []
     owed = int(loan_info['amount_loaned'])
@@ -112,7 +114,7 @@ def get_loan(loan_number):
         owed -= int(row['amount'])
         payments.append({'date':row['d'], 'amount':row['amount'], 'owed':owed,
                          'receipt':row['reciept']})
-
+   
     return {'loan_info':loan_info, 'schedule':schedule, 'payments':payments}
 
 def get_all_loans():
