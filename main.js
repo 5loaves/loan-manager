@@ -67,7 +67,7 @@ var showLoan = function(loan) {
     loanInfo = loan.loan_info;
     $('#profName').text(loanInfo.name);
     $('#profDate').text(loanInfo.loan_date);
-    $('#profApp').html('<a href="#" id="test">Something here soon...</a>');
+    $('#profApp').html('<a href="#" id="test">View Application '+loanInfo.loan_number+'</a>');
     $('#profGen').text(loanInfo.gender);
     $('#profAmount').text(loanInfo.amount_loaned);
     $('#profNum').text(loanInfo.loan_number);
