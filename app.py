@@ -90,6 +90,10 @@ def add_loan(loan):
     ln = loansDB.get_loan(loan_number)
     if ln:
         print 'error, loan already exists', loan_number
+        loan_number = 'L'+ '{0:04d}'.format(int(loan_number[1:])+1)
+        print 'assigning it loan number', loan_number
+        loan['loanNum'] = loan_number
+        add_loan(loan)
         return
     
     loansDB.add_loan(loan['loanNum'], loan['name'], loan['file'], deformat_date(loan['loanDate']), 
