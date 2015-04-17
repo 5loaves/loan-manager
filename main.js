@@ -14,6 +14,7 @@ var message_recieved = function(type, msg) {
 	    }
 	}
 	resetAddLoanForm();
+	showPlots([]);
     } else if(type == 'show loan info'){
 	showLoan(msg);
     } else if(type == 'show report') {
@@ -27,7 +28,37 @@ socket.onmessage = function(e){
     d = JSON.parse(server_message);
     console.log(d);
     message_recieved(d[0],d[1]);
-}
+};
+
+var showPlots = function(plotData){
+    var data = [{label:"On Time", data:[[1,1]]}, 
+		{label:"Late", data:[[1,1]]}, 
+		{label:"Danger", data:[[1,1]]}];
+
+    var data2 = [{label:"On Time", data:[[1,1]]}, 
+		{label:"Late", data:[[2,10]]}, 
+		{label:"Danger", data:[[3,25]]}];
+
+    var data3 = [[0,20],[1,25],[2,18],[3,14],[4,10],[5,2],[6,0]]
+
+    $.plot('#plot1', data, {
+	series: {
+            pie: {
+		show: true
+            }
+	}
+    });
+
+    $.plot('#plot2', data2, {
+	series: {
+            bars: {
+		show: true
+            }
+	}
+    });
+
+    $.plot('#plot3', [data3]);
+};
 
 var showReceiptIcon = function(val, row){
     return '<a href="#"><i lnk="'+val+'" class="fa fa-newspaper-o recptClk icnBlue"></i></a>';

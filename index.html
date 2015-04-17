@@ -16,7 +16,8 @@
 <script src="js/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="js/moment-with-locales.js"></script>
 <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
-
+<script type="text/javascript" src="js/jquery.flot.min.js"></script>
+<script type="text/javascript" src="js/jquery.flot.pie.min.js"></script>
 <script type="text/javascript" src="pdfjs/build/pdf.js"></script>
 
 
@@ -274,17 +275,20 @@
 
           <div class="row placeholders">
             <div class="col-xs-7 col-sm-4 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+              <img data-src="holder.js/200x200/auto/sky">
+	      <div id="plot1" style="width:200px;height:200px"> </div>
               <h4>Label</h4>
               <span class="text-muted">Graph 1</span>
             </div>
             <div class="col-xs-7 col-sm-4 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+              <img data-src="holder.js/200x200/auto/vine">
+	      <div id="plot2" style="width:200px;height:200px"> </div>
               <h4>Label</h4>
               <span class="text-muted">Graph 2</span>
             </div>
             <div class="col-xs-7 col-sm-4 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+              <img data-src="holder.js/200x200/auto/sky">
+	      <div id="plot3" style="width:200px;height:200px"> </div>
               <h4>Label</h4>
               <span class="text-muted">Graph 3</span>
             </div>
